@@ -1,0 +1,65 @@
+index.html <!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animal Clicker</title>
+<style>
+body{text-align:center;font-family:Arial;background:#b8f5c0;margin:0;padding:20px}
+h1{font-size:35px}
+#hippo{font-size:150px;border:0;background:none;transition:.1s}
+#hippo:active{transform:scale(.9)}
+#weight{font-size:40px;font-weight:bold}
+button.upgrade{display:block;width:100%;max-width:500px;margin:10px auto;padding:18px;border:0;border-radius:15px;font-size:18px}
+</style>
+</head>
+
+<body>
+<h1>🦛 Animal Clicker</h1>
+
+<div>💰 Coins: <span id="coins">0</span></div>
+<div id="weight">0.0 lbs</div>
+<p>+<span id="power">0.2</span> lbs per click</p>
+
+<button id="hippo">🦛</button>
+
+<h2>🛒 Upgrades</h2>
+
+<button class="upgrade" onclick="buy('melon',50,1)">🍉 Melon — 50 coins (+1 lb/click)</button>
+<button class="upgrade" onclick="buy('meat',150,1.5)">🥩 Meat Chunk — 150 coins (+1.5 lb/click)</button>
+<button class="upgrade" onclick="buy('banana',400,3)">🍌 Banana Bunch — 400 coins (+3 lb/click)</button>
+<button class="upgrade" onclick="buy('pizza',1000,8)">🍕 Giant Pizza — 1,000 coins (+8 lb/click)</button>
+<button class="upgrade" onclick="buy('carrot',2500,15)">🥕 Carrot Sack — 2,500 coins (+15 lb/click)</button>
+<button class="upgrade" onclick="buy('burger',5000,30)">🍔 Mega Burger — 5,000 coins (+30 lb/click)</button>
+
+<script>
+let weight=Number(localStorage.weight)||0;
+let coins=Number(localStorage.coins)||0;
+let power=Number(localStorage.power)||0.2;
+
+function update(){
+ document.getElementById("weight").textContent=weight.toFixed(1)+" lbs";
+ document.getElementById("coins").textContent=Math.floor(coins);
+ document.getElementById("power").textContent=power;
+ localStorage.weight=weight;
+ localStorage.coins=coins;
+ localStorage.power=power;
+}
+
+document.getElementById("hippo").onclick=function(){
+ weight+=power;
+ coins+=Math.max(1,Math.floor(power));
+ update();
+};
+
+function buy(name,cost,amount){
+ if(coins>=cost){
+  coins-=cost;
+  power+=amount;
+  update();
+ }
+}
+
+update();
+</script>
+</body>
+</html>
